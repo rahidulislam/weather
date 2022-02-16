@@ -1,6 +1,40 @@
-<html>
-    <head></head>
-    <body>
-        <h1>Welcome to Weather Application</h1>
-    </body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <h3 class="text-center text-success">Search City Temperature Here </h3>
+            <form action="." method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-block btn-outline-success mt-2">Submit</button>
+            
+              </form>
+        </div>
+        
+    </row>
+</div>
+
+{% if request.POST %}
+<div class="container py-5 text-center">
+    <h2 class="pb-2 border-bottom text-center">City: {{ city }}</h2>
+    <div class="row py-5 justify-content-center">
+      <div class="feature col-lg-6">
+        <div class="feature-icon bg-light">
+          <img src="http://openweathermap.org/img/wn/{{icon}}@2x.png" />
+        </div>
+        <h2>Weather Info: {{ description }}</h2>
+        <p>Temperature: {{ temp }} </p>
+        <p>Temperature Minimum: {{ temp_min }} </p>
+        <p>Temperature Maximum: {{ temp_max }} </p>
+        <p>Day: {{ today }} </p>
+      </div>
+      
+    </div>
+  </div>
+{% endif %}
+  
+
+  
+
+{% endblock content %}
