@@ -2,11 +2,14 @@
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-lg-6">
             <h3 class="text-center text-success">Search City Temperature Here </h3>
             <form action="." method="POST">
                 {% csrf_token %}
                 {{ form }}
+                <div>
+
+                </div>
                 <button type="submit" class="btn btn-block btn-outline-success mt-2">Submit</button>
             
               </form>
@@ -17,6 +20,9 @@
 
 {% if request.POST %}
 <div class="container py-5 text-center">
+    {% if message %}
+    <h2 class="pb-2 border-bottom text-center">{{ message }}</h2>
+    {% else %}
     <h2 class="pb-2 border-bottom text-center">City: {{ city }}</h2>
     <div class="row py-5 justify-content-center">
       <div class="feature col-lg-6">
@@ -31,6 +37,8 @@
       </div>
       
     </div>
+    {% endif %}
+    
   </div>
 {% endif %}
   

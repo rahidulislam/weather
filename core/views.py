@@ -9,6 +9,7 @@ import datetime
 class HomeView(View):
     template_name = 'core/index.html'
     search_form = SearchForm
+
     def get(self, request):
         context={
             'form': self.search_form
@@ -23,23 +24,34 @@ class HomeView(View):
             api_url = 'https://api.openweathermap.org/data/2.5/weather'
             params = {'q': city, 'appid':app_id, 'units':'metric'}
             result = requests.get(url=api_url, params=params)
+            print("Result: ",result)
+            
             response = result.json()
-            description = response['weather'][0]['description']
-            icon = response['weather'][0]['icon']
-            temp = response['main']['temp']
-            temp_min = response['main']['temp_min']
-            temp_max = response['main']['temp_max']
-            today = datetime.date.today()
-            context={
-                'description': description,
-                'city': city,
-                'icon': icon,
-                'temp': temp,
-                'temp_min': temp_min,
-                'temp_max': temp_max,
-                'today': today,
-                'form': self.search_form
-            }
+            print("Response: ", response)
+            if response['cod']==200:
+
+                description = response['weather'][0]['description']
+                icon = response['weather'][0]['icon']
+                temp = response['main']['temp']
+                temp_min = response['main']['temp_min']
+                temp_max = response['main']['temp_max']
+                today = datetime.date.today()
+                context={
+                    'description': description,
+                    'city': city,
+                    'icon': icon,
+                    'temp': temp,
+                    'temp_min': temp_min,
+                    'temp_max': temp_max,
+                    'today': today,
+                    'form': form
+                }
+            else:
+                message = response['message']
+                context = {
+                    'form': form,
+                    'message': message
+                }
         return render(request, self.template_name, context)
 
 
