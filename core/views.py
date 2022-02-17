@@ -3,7 +3,7 @@ from django.views.generic import View
 from core.forms import SearchForm
 import requests
 import datetime
-
+from django.conf import settings
 
 # Create your views here.
 class HomeView(View):
@@ -20,14 +20,12 @@ class HomeView(View):
         form = self.search_form(request.POST)
         if form.is_valid():
             city = form.cleaned_data['city']
-            app_id = '50cf0a432e9ea8508a7254f26ac90e31'
+            app_id = settings.WEATHER_APP_ID
             api_url = 'https://api.openweathermap.org/data/2.5/weather'
             params = {'q': city, 'appid':app_id, 'units':'metric'}
             result = requests.get(url=api_url, params=params)
-            print("Result: ",result)
             
             response = result.json()
-            print("Response: ", response)
             if response['cod']==200:
 
                 description = response['weather'][0]['description']
